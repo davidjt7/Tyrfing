@@ -4,7 +4,8 @@ import HeroData from "../data/HeroData";
 import Hero from "./Hero";
 export default class Heroes extends Component {
   static navigationOptions = {
-    title: "Heroes"
+    title: "Heroes",
+    header: null
   };
   render() {
     return (

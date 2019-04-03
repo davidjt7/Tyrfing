@@ -1,13 +1,17 @@
 import React, { Component } from "react";
-import { createBottomTabNavigator, createAppContainer } from "react-navigation";
+import {
+  createBottomTabNavigator,
+  createAppContainer,
+  createStackNavigator
+} from "react-navigation";
 import TabHome from "./TabHome";
-import Heroes from "./Heroes";
 import Map from "./Map";
+import HeroScreen from "./HeroScreen";
 
 const TabNavigator = createBottomTabNavigator(
   {
     TabHome: { screen: TabHome },
-    Heroes: { screen: Heroes },
+    Heroes: { screen: HeroScreen },
     Map: { screen: Map }
   },
   {
@@ -32,3 +36,4 @@ export default class Menu extends Component {
     return <AppContainer />;
   }
 }
+

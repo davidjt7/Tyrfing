@@ -1,7 +1,29 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-
-export default class Hero extends Component {
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native";
+import {
+  withNavigation,
+  createStackNavigator,
+  createAppContainer
+} from "react-navigation";
+import HeroDetails from "./HeroDetails";
+var Sound = require("react-native-sound");
+var soundContainer = new Sound("ruined.mp3", Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log("Failed to load the sound", error);
+    return;
+  }
+});
+function playSound() {
+  soundContainer.play();
+}
+class Hero extends Component {
   constructor() {
     super();
     this.state = { toggleImage: true };
@@ -12,7 +34,7 @@ export default class Hero extends Component {
       : this.props.item.imageAttackUrl;
     return (
       <View style={styles.container}>
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           style={styles.heroImage}
           onPress={() =>
             this.setState({ toggleImage: !this.state.toggleImage })
@@ -23,10 +45,32 @@ export default class Hero extends Component {
             source={{ uri: imgSource }}
             resizeMode="contain"
           />
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
 
         <View style={styles.heroDetails}>
-          <Text style={styles.heroName}>{this.props.item.name}</Text>
+          <View style={styles.heroHeader}>
+            <View style={styles.soundContainer}>
+              <TouchableOpacity onPress={() => playSound()}>
+                <Image
+                  style={styles.headerImage}
+                  source={require("../assets/note.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.nameContainer}>
+              <Text style={styles.heroName}>{this.props.item.name}</Text>
+            </View>
+            <View style={styles.soundContainer}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Details")}
+              >
+                <Image
+                  style={styles.headerImage}
+                  source={require("../assets/details.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
           <Text style={styles.heroDescription}>
             {this.props.item.heroDescription}
           </Text>
@@ -36,11 +80,22 @@ export default class Hero extends Component {
   }
 }
 
+export default withNavigation(Hero);
+
+const DetailsNavigator = createStackNavigator({
+  Details: { screen: HeroDetails }
+});
+
+const DetailsContainer = createAppContainer(DetailsNavigator);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
     backgroundColor: "lightskyblue"
+  },
+  heroHeader: {
+    flexDirection: "row"
   },
   heroDetails: {
     flex: 1,
@@ -51,11 +106,25 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginBottom: 5
   },
+  nameContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   heroName: {
-    fontSize: 20,
+    fontSize: 12,
     textAlign: "center",
     padding: 10,
     color: "cornsilk"
+  },
+  soundContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  headerImage: {
+    width: 20,
+    height: 20
   },
   heroDescription: {
     fontSize: 10,
