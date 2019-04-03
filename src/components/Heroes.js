@@ -3,6 +3,9 @@ import { StyleSheet, FlatList, View } from "react-native";
 import HeroData from "../data/HeroData";
 import Hero from "./Hero";
 export default class Heroes extends Component {
+  static navigationOptions = {
+    title: "Heroes"
+  };
   render() {
     return (
       <View style={styles.container}>

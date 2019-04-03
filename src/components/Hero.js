@@ -1,14 +1,30 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default class Hero extends Component {
+  constructor() {
+    super();
+    this.state = { toggleImage: true };
+  }
   render() {
+    var imgSource = this.state.toggleImage
+      ? this.props.item.imageUrl
+      : this.props.item.imageAttackUrl;
     return (
       <View style={styles.container}>
-        <Image
+        <TouchableOpacity
           style={styles.heroImage}
-          source={{ uri: this.props.item.imageUrl }}
-        />
+          onPress={() =>
+            this.setState({ toggleImage: !this.state.toggleImage })
+          }
+        >
+          <Image
+            style={styles.heroImage}
+            source={{ uri: imgSource }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+
         <View style={styles.heroDetails}>
           <Text style={styles.heroName}>{this.props.item.name}</Text>
           <Text style={styles.heroDescription}>
@@ -30,26 +46,28 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     justifyContent: "center",
-    backgroundColor: "silver",
+    backgroundColor: "royalblue",
     marginTop: 10,
-    marginRight: 5
+    marginRight: 5,
+    marginBottom: 5
   },
   heroName: {
     fontSize: 20,
     textAlign: "center",
-    padding: 10
+    padding: 10,
+    color: "cornsilk"
   },
   heroDescription: {
     fontSize: 10,
     color: "white"
   },
   heroImage: {
-    width: 50,
-    height: 250,
+    width: undefined,
+    height: undefined,
     marginTop: 10,
     marginLeft: 5,
+    marginBottom: 5,
     backgroundColor: "gold",
-    flex: 0.5,
-    alignSelf: 'center'
+    flex: 1
   }
 });
