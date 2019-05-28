@@ -7,12 +7,14 @@ import {
 import TabHome from "./TabHome";
 import Map from "./Map";
 import HeroScreen from "./HeroScreen";
+import AllHeroes from "./AllHeroes";
 
 const TabNavigator = createBottomTabNavigator(
   {
     TabHome: { screen: TabHome },
     Heroes: { screen: HeroScreen },
-    Map: { screen: Map }
+    Map: { screen: Map },
+    All: AllHeroes
   },
   {
     tabBarOptions: {
